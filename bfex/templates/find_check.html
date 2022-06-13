@@ -1,10 +1,18 @@
 {% extends "layout.html" %}
 
 {% block content %}
-Find a check
+<h2>Find a check</h2>
 
 {% for row in board %}
   <p>{{ row }}</p>
 {% endfor %}
+
+<form class="ui form" method="POST" action="/find_a_check/">
+  <div class="field">
+    <label>Move</label>
+    <input type="text" name="move" placeholder="e4">
+  </div>
+  <button class="ui button" type="submit">Submit</button>
+</form>
 
 {% endblock %}
