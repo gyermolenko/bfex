@@ -1,5 +1,12 @@
-`python bfex/find_checks.py  # independant script (console mode)`
+Code for https://bfex.herokuapp.com/
 
-`pytest tests/test_board.py  # tests`
+Goal is to create a place for exercises for chess board visualization.
 
-`uvicorn bfex.main:app --reload  # run server locally`
+Development
+===========
+
+Run in console mode: `$ python bfex/find_checks.py`
+
+Test: `$ pytest tests/test_board.py`
+
+Run server: `$ uvicorn bfex.main:app --reload`
