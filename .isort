@@ -1,0 +1,10 @@
+[settings]
+line_length=120
+profile = black
+multi_line_output=3
+atomic=true
+force_grid_wrap=0
+include_trailing_comma=true
+lines_after_imports=2
+lines_between_types=1
+use_parentheses=true

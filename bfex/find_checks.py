@@ -2,8 +2,9 @@
 # generate random white piece
 # save position before exercise for infinite repeats
 
-import chess
 import random
+
+import chess
 
 
 def set_pieces_for_find_a_check():
@@ -15,7 +16,7 @@ def set_pieces_for_find_a_check():
     return board
 
 
-def set_board_for_find_a_check():
+def set_board_for_find_a_check() -> chess.Board:
     while True:
         board = set_pieces_for_find_a_check()
         if check_if_either_side_is_in_check(board):
@@ -28,8 +29,6 @@ def set_board_for_find_a_check():
 def set_piece_at_random_square(board, piece):
     while True:
         square = random.choice(chess.SQUARES)
-        # if square not in board.piece_map():
-            # break
         if square in board.piece_map():
             continue
         break
@@ -42,12 +41,16 @@ def check_if_either_side_is_in_check(board):
         return True
     board.turn = not board.turn
     if board.is_check():
-        return True 
+        return True
     return False
 
 
 def _display_board_for_one_side(board, color) -> str:
-    return ", ".join(piece.symbol().upper() + chess.square_name(sq) for sq, piece in board.piece_map().items() if piece.color == color)
+    return ", ".join(
+        piece.symbol().upper() + chess.square_name(sq)
+        for sq, piece in board.piece_map().items()
+        if piece.color == color
+    )
 
 
 def display_board_in_algebraic_form(board) -> None:
@@ -62,14 +65,14 @@ def main():
     while True:
         # board = generate_board()
 
-        print('------------------------')
+        print("------------------------")
         print(board)
 
         # Show user a position in alg. form
-        print('------------------------')
+        print("------------------------")
         display_board_in_algebraic_form(board)
 
-        print('------------------------')
+        print("------------------------")
         move = input("Make a move: ")
         if move == "q":
             exit()
@@ -88,5 +91,5 @@ def main():
             board.pop()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
