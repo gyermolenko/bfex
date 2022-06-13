@@ -6,7 +6,7 @@ import chess
 import random
 
 
-def set_pieces_for_find_a_check_ex():
+def set_pieces_for_find_a_check():
     board = chess.Board.empty()
     # board.set_piece_at(chess.H8, piece=chess.Piece(chess.KING, color=chess.BLACK))
     # board.set_piece_at(chess.A2, piece=chess.Piece(chess.QUEEN, color=chess.WHITE))
@@ -14,9 +14,10 @@ def set_pieces_for_find_a_check_ex():
     set_piece_at_random_square(board, piece=chess.Piece(chess.QUEEN, color=chess.WHITE))
     return board
 
-def set_board_for_find_a_check_ex():
+
+def set_board_for_find_a_check():
     while True:
-        board = set_pieces_for_find_a_check_ex()
+        board = set_pieces_for_find_a_check()
         if check_if_either_side_is_in_check(board):
             continue
         break
@@ -45,9 +46,18 @@ def check_if_either_side_is_in_check(board):
     return False
 
 
+def _display_board_for_one_side(board, color) -> str:
+    return ", ".join(piece.symbol().upper() + chess.square_name(sq) for sq, piece in board.piece_map().items() if piece.color == color)
+
+
+def display_board_in_algebraic_form(board) -> None:
+    for color in chess.COLORS:
+        print(chess.COLOR_NAMES[color], _display_board_for_one_side(board, color))
+
+
 def main():
 
-    board = set_board_for_find_a_check_ex()
+    board = set_board_for_find_a_check()
 
     while True:
         # board = generate_board()
@@ -57,11 +67,7 @@ def main():
 
         # Show user a position in alg. form
         print('------------------------')
-        for color in chess.COLORS:
-            print(
-                chess.COLOR_NAMES[color],
-                ", ".join(piece.symbol().upper() + chess.square_name(sq) for sq, piece in board.piece_map().items() if piece.color == color)
-            )
+        display_board_in_algebraic_form(board)
 
         print('------------------------')
         move = input("Make a move: ")
@@ -80,6 +86,7 @@ def main():
             else:
                 print("Not a check")
             board.pop()
+
 
 if __name__ == '__main__':
     main()

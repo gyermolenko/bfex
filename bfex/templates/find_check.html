@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+
+{% block content %}
+Find a check
+
+{% for row in board %}
+  <p>{{ row }}</p>
+{% endfor %}
+
+{% endblock %}

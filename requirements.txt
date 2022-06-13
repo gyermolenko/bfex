@@ -2,3 +2,4 @@ chess
 fastapi
 uvicorn
 gunicorn
+jinja2
