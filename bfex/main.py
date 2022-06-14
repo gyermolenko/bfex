@@ -40,4 +40,4 @@ def find_checks_submit_solution(solution: Solution):
     if in_check:
         return {"result": "check"}
 
-    return {"result": "not check"}
+    return {"result": "not a check"}

@@ -4,6 +4,7 @@
 
 <script>
   $(document).ready(function() {
+    $("#results").hide();
 
     $("#save").click(function() {
 
@@ -21,7 +22,18 @@
         data: JSON.stringify({ "move": move , "board_alg": {"white": board_white, "black": board_black} }),
         dataType: 'json',
         success: function (data) {
-          console.log(data);
+          var result = data.result;
+          var text = "";
+          console.log(result);
+          if (result == "check") {
+            text = "Correct! Next"
+          } else if (result == "not a check") {
+            text = "Incorrect. Try again!"
+          } else if (result == "invalid move") {
+            text = "Invalid move"
+          };
+          $("#results").text(text);
+          $("#results").show();
         }
       });
 
@@ -42,17 +54,7 @@
 
 <button class="ui button" id="save">Submit</button>
 
+<div><span id="results"></span></div>
 
-<!-- {% for row in board %}
-  <p>{{ row }}</p>
-{% endfor %} -->
-
-<!-- <form class="ui form" method="POST" action="/find_a_check/">
-  <div class="field">
-    <label>Move</label>
-    <input type="text" name="move" placeholder="e4" id="move">
-  </div>
-  <button class="ui button" type="submit">Submit</button>
-</form> -->
 
 {% endblock %}

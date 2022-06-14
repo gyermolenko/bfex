@@ -1,6 +1,6 @@
 # TODO:
 # generate random white piece
-# save position before exercise for infinite repeats
+# add "reveal board" to UI
 
 import random
 
