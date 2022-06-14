@@ -1,0 +1,58 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<script>
+  $(document).ready(function() {
+
+    $("#save").click(function() {
+
+      var move = $("#move").val();
+      console.log(move);
+      var board_white = $('#board-white').text();
+      console.log(board_white);
+      var board_black = $('#board-black').text();
+      console.log(board_black);
+
+      $.ajax({
+        url: '/find_checks/',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({ "move": move , "board_alg": {"white": board_white, "black": board_black} }),
+        dataType: 'json',
+        success: function (data) {
+          console.log(data);
+        }
+      });
+
+    });
+
+  });
+</script>
+
+
+<h2>Find a check</h2>
+
+<p>white: <span id="board-white">{{ board_alg.white }}</span></p>
+<p>black: <span id="board-black">{{ board_alg.black }}</span></p>
+
+<div class="ui input">
+  <input type="text" placeholder="e4" id="move">
+</div>
+
+<button class="ui button" id="save">Submit</button>
+
+
+<!-- {% for row in board %}
+  <p>{{ row }}</p>
+{% endfor %} -->
+
+<!-- <form class="ui form" method="POST" action="/find_a_check/">
+  <div class="field">
+    <label>Move</label>
+    <input type="text" name="move" placeholder="e4" id="move">
+  </div>
+  <button class="ui button" type="submit">Submit</button>
+</form> -->
+
+{% endblock %}
