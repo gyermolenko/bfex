@@ -15,7 +15,9 @@ def find_checks_get_exercise(request: Request):
     board = find_checks.set_board_for_find_a_check()
     board_alg = find_checks.convert_board_to_algebraic(board)
     return templates.TemplateResponse(
-        "find_checks.html", {"request": request, "board": str(board).split("\n"), "board_alg": board_alg}
+        # "find_checks.html", {"request": request, "board": str(board).split("\n"), "board_alg": board_alg}
+        "find_checks.html",
+        {"request": request, "board_alg": board_alg},
     )
 
 

@@ -1,18 +1,60 @@
-# TODO:
-# generate random white piece
-# add "reveal board" to UI
+"""
+TODO:
+- "Correct! Next" should take you to a next problem
+- report move without a piece (e.g. e4 inst Qe4)
+- add "reveal board" to UI
+"""
 
 import random
 
 import chess
 
 
+def set_piece_at_random_square(board, piece):
+    while True:
+        square = random.choice(chess.SQUARES)
+        if square in board.piece_map():
+            continue
+        break
+    board.set_piece_at(square, piece=piece)
+    return square
+
+
+def choose_piece_type_at_random():
+    some_piece_types = [chess.KNIGHT, chess.BISHOP, chess.ROOK, chess.QUEEN]
+    return random.choice(some_piece_types)
+
+
+def find_square_from_where_possible_to_move_with_check(attacker_piece_type, target_square) -> chess.Square:
+    """Back-tracks a square for a specific attacking piece by moving from target square twice"""
+    temp_board = chess.Board.empty()
+    temp_board.set_piece_at(target_square, piece=chess.Piece(attacker_piece_type, color=chess.WHITE))
+
+    legal_moves = list(temp_board.legal_moves)
+    first_move = random.choice(legal_moves)
+    temp_board.push_uci(str(first_move))
+
+    temp_board.turn = not temp_board.turn
+
+    legal_moves = list(temp_board.legal_moves)
+    while True:
+        second_move = random.choice(legal_moves)
+        if second_move.to_square == target_square:
+            continue
+        break
+
+    return second_move.to_square
+
+
 def set_pieces_for_find_a_check():
     board = chess.Board.empty()
-    # board.set_piece_at(chess.H8, piece=chess.Piece(chess.KING, color=chess.BLACK))
-    # board.set_piece_at(chess.A2, piece=chess.Piece(chess.QUEEN, color=chess.WHITE))
-    set_piece_at_random_square(board, piece=chess.Piece(chess.KING, color=chess.BLACK))
-    set_piece_at_random_square(board, piece=chess.Piece(chess.QUEEN, color=chess.WHITE))
+
+    king_square = set_piece_at_random_square(board, piece=chess.Piece(chess.KING, color=chess.BLACK))
+
+    attacker_piece_type = choose_piece_type_at_random()
+    square_for_attacker = find_square_from_where_possible_to_move_with_check(attacker_piece_type, king_square)
+    board.set_piece_at(square_for_attacker, piece=chess.Piece(attacker_piece_type, color=chess.WHITE))
+
     return board
 
 
@@ -24,16 +66,6 @@ def set_board_for_find_a_check() -> chess.Board:
         break
     board.turn = chess.WHITE
     return board
-
-
-def set_piece_at_random_square(board, piece):
-    while True:
-        square = random.choice(chess.SQUARES)
-        if square in board.piece_map():
-            continue
-        break
-    board.set_piece_at(square, piece=piece)
-    return square
 
 
 def check_if_either_side_is_in_check(board):
@@ -95,15 +127,8 @@ def convert_algebraic_to_board(alg: dict) -> chess.Board:
 
 
 def check_solution(board, move):
-    in_check = False
-
     board.push_san(move)
-
-    if board.is_check():
-        in_check = True
-    else:
-        in_check = False
-
+    in_check = board.is_check()
     board.pop()
     return in_check
 
