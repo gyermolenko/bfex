@@ -5,8 +5,9 @@
 <script>
   $(document).ready(function() {
     $("#results").hide();
+    $("#next-btn").hide();
 
-    $("#save").click(function() {
+    $("#save-btn").click(function() {
 
       var move = $("#move").val();
       console.log(move);
@@ -26,17 +27,25 @@
           var text = "";
           console.log(result);
           if (result == "check") {
-            text = "Correct! Next"
+            text = "Correct!";
+            $("#move").css("border", "3px solid green");
           } else if (result == "not a check") {
-            text = "Incorrect. Try again!"
+            text = "Incorrect. Try again!";
+            $("#move").css("border", "3px solid red");
           } else if (result == "invalid move") {
-            text = "Invalid move"
+            text = "Invalid move";
+            $("#move").css("border", "3px solid red");
           };
           $("#results").text(text);
           $("#results").show();
+          $("#next-btn").show();
         }
       });
 
+    });
+
+    $("#next-btn").click(function() {
+        location.reload();
     });
 
   });
@@ -52,7 +61,8 @@
   <input type="text" placeholder="e4" id="move">
 </div>
 
-<button class="ui button" id="save">Submit</button>
+<button class="ui button" id="save-btn">Submit</button>
+<button class="ui button" id="next-btn">Next</button>
 
 <div><span id="results"></span></div>
 

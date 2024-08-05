@@ -10,7 +10,7 @@ import random
 import chess
 
 
-def set_piece_at_random_square(board, piece):
+def set_piece_at_random_square(board: chess.Board, piece: chess.Piece) -> chess.Square:
     while True:
         square = random.choice(chess.SQUARES)
         if square in board.piece_map():
@@ -92,7 +92,7 @@ def convert_board_to_algebraic(board: chess.Board) -> dict:
     }
 
 
-def convert_algebraic_to_piecetype_and_square(san: str):
+def convert_algebraic_to_piecetype_and_square(san: str) -> tuple:
     """
     Qa8 -> chess.QUEEN + chess.A8 (piece type + square)
     """
@@ -126,7 +126,7 @@ def convert_algebraic_to_board(alg: dict) -> chess.Board:
     return board
 
 
-def check_solution(board, move):
+def check_solution(board: chess.Board, move):
     board.push_san(move)
     in_check = board.is_check()
     board.pop()
